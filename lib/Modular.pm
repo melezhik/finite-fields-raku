@@ -23,22 +23,27 @@ multi infix:<->(Modular $a, Modular $b where $a.modulus ~~ $b.modulus) is export
     Modular.new: $a.Bridge - $b.Bridge, :modulus($a.modulus)
 }
 
-multi infix:<+>(Modular $a, Modular $b where $a.modulus ~~ $b.modulus) is export returns Modular {
+proto infix:<+>($) is export returns Modular {*}
+multi infix:<+>(Modular $a, Int $b) { Modular.new: $b + $a.Bridge, :modulus($a.modulus) }
+multi infix:<+>(Int $a, Modular $b) { Modular.new: $a + $b.Bridge, :modulus($b.modulus) }
+multi infix:<+>(Modular $a, Modular $b where $a.modulus ~~ $b.modulus) {
     Modular.new: $a.Bridge + $b.Bridge, :modulus($a.modulus)
 }
 
-multi infix:<*>(Modular $a, Modular $b where $a.modulus ~~ $b.modulus) is export returns Modular {
+proto infix:<*>($) is export returns Modular {*}
+multi infix:<*>(Int $a, Modular $b) { Modular.new: $a * $b.Bridge, :modulus($b.modulus) }
+multi infix:<*>(Modular $a, Int $b) { Modular.new: $b * $a.Bridge, :modulus($a.modulus) }
+multi infix:<*>(Modular $a, Modular $b where $a.modulus ~~ $b.modulus) {
     Modular.new: $a.Bridge * $b.Bridge, :modulus($a.modulus)
 }
-multi infix:<*>(Int $a, Modular $b) is export returns Modular {
-    Modular.new: $a * $b.Bridge, :modulus($b.modulus)
-}
 
-multi infix:</>(Modular $a, Modular $b where $a.modulus ~~ $b.modulus) is export returns Modular {
+proto infix:<div>($) is export returns Modular {*}
+multi infix:<div>(Modular $a, Modular $b where $a.modulus ~~ $b.modulus) {
     Modular.new: $a.Bridge * $b.Inverse.Bridge, :modulus($a.modulus)
 }
 
-multi infix:<**>(Modular $a, Int $e) is export returns Modular {
+proto infix:<**>($) is export returns Modular {*}
+multi infix:<**>(Modular $a, Int $e) {
     Modular.new: $a.Bridge.expmod($e, $a.modulus), :modulus($a.modulus)
 }
 

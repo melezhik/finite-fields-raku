@@ -1,31 +1,49 @@
-Modular arithmetics in Perl6
+# Modular arithmetics in Perl6
 
 Inspired from P5´s Math::ModInt
 
     use Modular;
 
-    # using the exported C<mod> functin
-    my $x = mod(6, 10);
-    my $y = mod(7, 10);
+    my $x = 6 Mod 10;
+    my $y = 7 Mod 10;
     say $x + $y;  # should display 3 「mod 10」
 
     # using a verbose object notation
     # the modulus must be passed as a named argument
-    my $x = Modular.new: 6, :modulus(10);
-    my $x = Modular.new: 7, :modulus(10);
+    my $x = Modulo.new: 6, :modulus(10);
+    my $x = Modulo.new: 7, :modulus(10);
     say $x * $y;  # should display 2 「mod 10」
-
-    # using a default modulus
-    $Modular::default-modulus =  10;
-    my $x = mod 6;
-    my $y = mod 7;
     say $x div $y; # should display 8 「mod 10」
 
 
-The purpose of this module is to provide a class implementing Real and
-overloading arithmetic operators.  Some modular operators are already defined
-in perl6, such as '%', 'mod' and 'expmod'.  But as far as I know, there is no
-class to use them with generic functions.
+## Note about vocabulary
+
+I found that creating a Modular arithmetic module is not technically difficult
+(after all most of the operators are already defined in Perl), but it's not easy
+to chose the most convenient kind of notations about it.   And there is also the
+vocabulary issue.
+
+When talking about modular arithmetics, there are at least three different words
+that come to mind:  "modular", "modulo" and "modulus".  Here is what I chose.  The
+name of the module (in the perl6 sense) is C<Modular>, as in "Modular arithmetic".
+I chose this because this module exports a bunch of stuff that are related to modular
+aritchmetic, and I wanted to keep the name short, so I kept only the adjective.
+
+C<Modular> defines a class called C<Modulo>.  The constructor takes two
+integers as argument:  an residue and a modulus, both of them being public
+instance variables.
+
+In latin, modulus means 'measure' and modulo is the ablative form.  Basically
+this means that the modulo is what you get from the measure.  Hopefully with
+this ethymological hindsight, the choice of names for the class makes sense.
+
+
+## Purpose of this module
+
+The purpose of this module is to provide a class implementing Real in order to
+define modular integers.  Most modular operators are already defined in perl6,
+such as '%', 'mod' and 'expmod'.  But as far as I know, there is no class to
+use them with generic functions.
 
 For instance, say you defined the factorial function as such:
 

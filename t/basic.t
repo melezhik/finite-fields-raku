@@ -2,17 +2,21 @@ BEGIN { push @*INC, <lib> }
 use Modular;
 use Test;
 
-plan 6;
+plan *;
 
-my $modulus = 10;
-is .residue, 1, "simple modular addition" given Modular.new(5, :$modulus) + Modular.new(6, :$modulus);
-is .residue, 2, "simple modular multiplication" given mod(4, $modulus) * mod(3, $modulus);
-is .residue, 1, "modular inverse" given mod(3, $modulus) * mod(3, $modulus).Inverse;
-is .residue, 8, "modular division" given mod(6, $modulus) * mod(7, $modulus).Inverse;
+my $modulus = 7;
 
-$Modular::default-modulus = 9973;
-my $r = (^$Modular::default-modulus).pick;
-is .residue, $_, "using default modulus" given mod($r);
-is .residue, $r.expmod( 10000, .modulus ), "modular exponentiation" given mod($r)**10000;
+my $five = 5 Mod $modulus;
+my $six = 6 Mod $modulus;
+
+is $five + $six, 4, "simple modular addition";
+is $five*$six, 2, "simple modular multiplication";
+
+is (1 Mod $modulus)/$five, 3, "modular inverse";
+is $six/$five, 4, "modular division";
+
+$modulus = 9973;
+my $r = (^$modulus).pick Mod $modulus;
+is $r**10000, $r.Bridge.expmod( 10000, $modulus ), "modular exponentiation";
 
 # vim: ft=perl6

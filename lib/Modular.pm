@@ -1,12 +1,11 @@
-class Modular does Real {
-    our $.default-modulus;
+class Modulo does Real {
     has ($.residue, $.modulus);
-    multi method new($residue, :$modulus where * > 1) { self.new: :residue($residue % $modulus), :$modulus }
-    method Bridge { $.residue % $.modulus }
-    multi method gist { "{self.Bridge} 「mod $.modulus」" }
-    method succ { self.Bridge.succ % $.modulus }
+    multi method new($n, :$modulus) { self.new: :residue($n % $modulus), :$modulus }
+    method Bridge { $.residue }
+    multi method gist { "$.residue 「mod $.modulus」" }
+    method succ { self.new: $.residue.succ, :$.modulus }
     multi method Inverse {
-	return Mu unless $.residue gcd $.modulus == 1;
+        return Modulo unless $.residue gcd $.modulus == 1;
         my ($c, $d, $uc, $vc, $ud, $vd) = ($.residue, $.modulus, 1, 0, 0, 1);
         my $q;
         while $c != 0 {
@@ -17,34 +16,27 @@ class Modular does Real {
     }
 }
 
-sub mod($residue, $modulus = $Modular::default-modulus) is export returns Modular { Modular.new: :$residue, :$modulus }
-multi prefix:<->(Modular $a) is export returns Modular { Modular.new: -$a.Bridge, :modulus($a.modulus) }
-multi infix:<->(Modular $a, Modular $b where $a.modulus ~~ $b.modulus) is export returns Modular {
-    Modular.new: $a.Bridge - $b.Bridge, :modulus($a.modulus)
-}
+sub infix:<Mod>(Int $n, Int $modulus where * > 1)
+is export returns Modulo { Modulo.new: $n, :$modulus }
 
-proto infix:<+>($) is export returns Modular {*}
-multi infix:<+>(Modular $a, Int $b) { Modular.new: $b + $a.Bridge, :modulus($a.modulus) }
-multi infix:<+>(Int $a, Modular $b) { Modular.new: $a + $b.Bridge, :modulus($b.modulus) }
-multi infix:<+>(Modular $a, Modular $b where $a.modulus ~~ $b.modulus) {
-    Modular.new: $a.Bridge + $b.Bridge, :modulus($a.modulus)
-}
+multi infix:<+>(Modulo $a, Modulo $b where $a.modulus ~~ $b.modulus)
+is export returns Modulo { Modulo.new: $a.Bridge + $b.Bridge, :modulus($b.modulus) }
 
-proto infix:<*>($) is export returns Modular {*}
-multi infix:<*>(Int $a, Modular $b) { Modular.new: $a * $b.Bridge, :modulus($b.modulus) }
-multi infix:<*>(Modular $a, Int $b) { Modular.new: $b * $a.Bridge, :modulus($a.modulus) }
-multi infix:<*>(Modular $a, Modular $b where $a.modulus ~~ $b.modulus) {
-    Modular.new: $a.Bridge * $b.Bridge, :modulus($a.modulus)
-}
+multi prefix:<->(Modulo $a)
+is export returns Modulo { $a.new: -$a.Bridge, :modulus($a.modulus) }
+multi infix:<->(Modulo $a, Modulo $b where $a.modulus ~~ $b.modulus)
+is export returns Modulo { $a + -$b }
 
-proto infix:<div>($) is export returns Modular {*}
-multi infix:<div>(Modular $a, Modular $b where $a.modulus ~~ $b.modulus) {
-    Modular.new: $a.Bridge * $b.Inverse.Bridge, :modulus($a.modulus)
-}
+multi infix:<*>(Int $a, Modulo $b)
+is export returns Modulo { Modulo.new: $a * $b.Bridge, :modulus($b.modulus) }
+multi infix:<*>(Modulo $a, Modulo $b where $a.modulus ~~ $b.modulus)
+is export returns Modulo { Modulo.new: $a.Bridge * $b.Bridge, :modulus($b.modulus) }
 
-proto infix:<**>($) is export returns Modular {*}
-multi infix:<**>(Modular $a, Int $e) {
-    Modular.new: $a.Bridge.expmod($e, $a.modulus), :modulus($a.modulus)
+multi infix:<div>(Modulo $a, Modulo $b) is export returns Modulo { $a * $b.Inverse }
+multi infix:</>(Modulo $a, Modulo $b) is export returns Modulo { $a div $b }
+
+multi infix:<**>(Modulo $a, Int $e) is export returns Modulo {
+    Modulo.new: $a.Bridge.expmod($e, $a.modulus), :modulus($a.modulus)
 }
 
 # vim: ft=perl6

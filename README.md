@@ -27,15 +27,15 @@ When talking about modular arithmetics, there are at least three different words
 that come to mind:  "modular", "modulo" and "modulus".  Here is what I chose.  The
 name of the module (in the perl6 sense) is C<Modular>, as in "Modular arithmetic".
 I chose this because this module exports a bunch of stuff that are related to modular
-aritchmetic, and I wanted to keep the name short, so I kept only the adjective.
+arithmetic, and I wanted to keep the name short, so I kept only the adjective.
 
 C<Modular> defines a class called C<Modulo>.  The constructor takes two
-integers as argument:  an residue and a modulus, both of them being public
+integers as argument:  a residue and a modulus, both of them being public
 instance variables.
 
 In latin, modulus means 'measure' and modulo is the ablative form.  Basically
 this means that the modulo is what you get from the measure.  Hopefully with
-this ethymological hindsight, the choice of names for the class makes sense.
+this etymological hindsight, the choice of names for the class makes sense.
 
 
 ## Purpose of this module

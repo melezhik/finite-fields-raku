@@ -2,7 +2,7 @@ BEGIN { push @*INC, <lib> }
 use Modular;
 use Test;
 
-plan *;
+plan 5;
 
 my $modulus = 7;
 

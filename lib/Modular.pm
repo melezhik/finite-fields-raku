@@ -19,6 +19,8 @@ class Modulo does Real {
 sub infix:<Mod>(Int $n, Int $modulus where * > 1)
 is export returns Modulo { Modulo.new: $n, :$modulus }
 
+multi infix:<+>(Modulo $a, Int $b) { $a + ($b Mod $a.modulus) }
+multi infix:<+>(Int $a, Modulo $b) { ($a Mod $b.modulus) + $b }
 multi infix:<+>(Modulo $a, Modulo $b where $a.modulus ~~ $b.modulus)
 is export returns Modulo { Modulo.new: $a.Bridge + $b.Bridge, :modulus($b.modulus) }
 

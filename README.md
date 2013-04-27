@@ -25,11 +25,11 @@ vocabulary issue.
 
 When talking about modular arithmetics, there are at least three different words
 that come to mind:  "modular", "modulo" and "modulus".  Here is what I chose.  The
-name of the module (in the perl6 sense) is C<Modular>, as in "Modular arithmetic".
+name of the module (in the perl6 sense) is 'Modular', as in "Modular arithmetic".
 I chose this because this module exports a bunch of stuff that are related to modular
 arithmetic, and I wanted to keep the name short, so I kept only the adjective.
 
-C<Modular> defines a class called C<Modulo>.  The constructor takes two
+'Modular' defines a class called 'Modulo'.  The constructor takes two
 integers as argument:  a residue and a modulus, both of them being public
 instance variables.
 
@@ -50,5 +50,5 @@ For instance, say you defined the factorial function as such:
     sub postfix:<!>($n) { [*] 1 .. $n }
 
 You can use such a function to compute 100! (mod 101) efficiently only
-if you have defined a modular version of C<*> and C<..>.  That is the purpose
+if you have defined a modular version of '*' and '..'.  That is the purpose
 of this module:  to use modular integers as if there were normal integers.

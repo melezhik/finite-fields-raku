@@ -1,0 +1,12 @@
+{
+     "name" : "FiniteFields",
+     "license" : "Artistic-2.0",
+     "version" : "0.2.0",
+     "description" : "Finite Fields in raku",
+     "provides" : {
+          "FiniteField": "lib/FiniteField.pm"
+     },
+     "author" : "grondilu",
+     "depends" : [ ],
+     "source-url" : "git://github.com/grondilu/finite-field-raku.git"
+ }

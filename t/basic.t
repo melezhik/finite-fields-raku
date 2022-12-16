@@ -1,22 +1,12 @@
-BEGIN { push @*INC, <lib> }
-use Modular;
 use Test;
 
-plan 5;
+use FiniteField;
+$*modulus = 13;
 
-my $modulus = 7;
+ok $_*$_ ~~ ^13 for ^13;
+ok 1/$_ ~~ UInt for 1..^13;
+is (1/$_)*$_, 1 for 1..^13;
 
-my $five = 5 Mod $modulus;
-my $six = 6 Mod $modulus;
+done-testing;
 
-is $five + $six, 4, "simple modular addition";
-is $five*$six, 2, "simple modular multiplication";
-
-is (1 Mod $modulus)/$five, 3, "modular inverse";
-is $six/$five, 4, "modular division";
-
-$modulus = 9973;
-my $r = (^$modulus).pick Mod $modulus;
-is $r**10000, $r.Bridge.expmod( 10000, $modulus ), "modular exponentiation";
-
-# vim: ft=perl6
+# vim: ft=raku

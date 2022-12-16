@@ -1,10 +1,12 @@
 # Finite Fields Aritmetics in raku
 
-    use FiniteField;
-    $*modulus = 13;
+```raku
+use FiniteField;
+$*modulus = 13;
 
-    say 10+5;  # 2
-    say 10/3;  # 12  (3*12 = 36 = 13*2 + 10)
+say 10+5;  # 2
+say 10/3;  # 12  (3*12 = 36 = 13*2 + 10)
+```
 
 ## Notes
    

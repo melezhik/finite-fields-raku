@@ -9,5 +9,5 @@
      },
      "author" : "grondilu",
      "depends" : [ ],
-     "source-url" : "git://github.com/grondilu/finite-field-raku.git"
+     "source-url" : "git@github.com:grondilu/finite-fields-raku.git"
  }

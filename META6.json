@@ -1,4 +1,5 @@
 {
+     "perl":  "6.*",
      "name" : "FiniteFields",
      "license" : "Artistic-2.0",
      "version" : "0.2.0",

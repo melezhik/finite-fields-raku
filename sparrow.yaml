@@ -6,16 +6,18 @@ tasks:
     default: true
     language: Raku
     code: |
-      use Text::Table::Simple;
-      my @columns = ("Rakudo Version", "Status", "Time", "Linux Dist");
-      my @rows;
+      use Prettier::Table;
+      my $table = Prettier::Table.new:
+        title => "Test Summary",
+        field-names => ["Rakudo Version", "Status", "Time", "OS"],
+        sort-by => 'Rakudo Version',
+      ;
       my $fail = False;
       for config()<tasks><multi-versions><state><list><> -> $i {
-        @rows.push: [ $i<version>, $i<status>,  $i<time>, os() ];
+        given $table { .add-row: [ $i<version>, $i<status>,  $i<time>, os() ] };
         $fail = True unless $i<status> eq "OK";
       }
-      my @table = lol2table(@columns,@rows);
-      .say for @table;
+      say $table;
       die "some tests failed" if $fail == True;
     depends:
       -
@@ -80,4 +82,4 @@ tasks:
     language: Bash
     code: |
       sudo apt-get install -y time 
-      zef install --/test Text::Table::Simple
+      zef install --/test Prettier::Table

@@ -18,4 +18,4 @@ say 10/3;  # 12  (3*12 = 36 = 13*2 + 10)
   * Define a modulus for each lexical scopes you import the module in.
   * Althouh the name of this repo is using a plural, the name of the module
   itself is singular, because you only use one finite field at a time.
-  * The main purpose of this module was to make writing cryptographic code easier.
+  * The main purpose of this module is to make writing cryptographic code easier.
